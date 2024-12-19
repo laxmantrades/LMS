@@ -30,7 +30,7 @@ const Login = () => {
       setloginInput({ ...signupInput, [name]: value });
     }
   };
-  console.log(signupInput.name);
+  console.log(loginInput.email);
 
   return (
     <div className="flex justify-center items-center ">
@@ -99,11 +99,25 @@ const Login = () => {
             <CardContent className="space-y-2 text-left">
               <div className="space-y-1">
                 <Label htmlFor="current">Login</Label>
-                <Input id="current" type="text" placeHolder="Email" />
+                <Input
+                  id="current"
+                  type="text"
+                  placeHolder="Email"
+                  name="email"
+                  value={loginInput.email}
+                  onChange={(e) => onChangeHandler(e)}
+                />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="new">Password</Label>
-                <Input id="new" type="password" placeHolder="password" />
+                <Input
+                  id="new"
+                  type="password"
+                  placeHolder="password"
+                  name="password"
+                  value={loginInput.email}
+                  onChange={(e) => onChangeHandler(e)}
+                />
               </div>
             </CardContent>
             <CardFooter className="flex justify-center ">
