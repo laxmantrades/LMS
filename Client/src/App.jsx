@@ -1,16 +1,17 @@
 import { useState } from 'react'
-import { Route, Routes } from 'react-router'
-import AuthPage from './pages/auth'
-
-
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
+import { Button } from './components/ui/button'
+import Login from './pages/Login'
 
 function App() {
- 
+
 
   return (
-    <Routes>
-      <Route path={"/auth"} element={<AuthPage/>}/>
-    </Routes>
+    <>
+     <Login></Login>
+    </>
   )
 }
 
