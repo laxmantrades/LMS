@@ -52,9 +52,9 @@ const Login = () => {
                 <Label htmlFor="name">Name</Label>
                 <Input
                   id="name"
-                  defaultValue=""
+                 
                   name="name"
-                  placeHolder="Full Name"
+                  placeholder="Full Name"
                   value={signupInput.name}
                   onChange={(e) => onChangeHandler(e, "singup")}
                   required={true}
@@ -67,16 +67,16 @@ const Login = () => {
                   value={signupInput.email}
                   name="email"
                   onChange={(e) => onChangeHandler(e, "singup")}
-                  placeHolder="Email"
-                  required="true"
+                  placeholder="Email"
+                  required={true}
                 />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="username">Password</Label>
                 <Input
                   id="username"
-                  defaultValue=""
-                  placeHolder="Password"
+               
+                  placeholder="Password"
                   value={signupInput.password}
                   name="password"
                   onChange={(e) => onChangeHandler(e, "singup")}
@@ -102,7 +102,7 @@ const Login = () => {
                 <Input
                   id="current"
                   type="text"
-                  placeHolder="Email"
+                  placeholder="Email"
                   name="email"
                   value={loginInput.email}
                   onChange={(e) => onChangeHandler(e)}
@@ -113,7 +113,7 @@ const Login = () => {
                 <Input
                   id="new"
                   type="password"
-                  placeHolder="password"
+                  placeholder="password"
                   name="password"
                   value={loginInput.email}
                   onChange={(e) => onChangeHandler(e)}
