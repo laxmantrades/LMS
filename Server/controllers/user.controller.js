@@ -1,5 +1,5 @@
 const User = require("../models/user.model");
-const bcrypt=require("bcrypt");
+const bcrypt = require("bcrypt");
 const generateToken = require("../utils/generateToken");
 
 const register = async (req, res) => {
@@ -14,22 +14,22 @@ const register = async (req, res) => {
     }
     //checking if same email exists or not
     const ifSameEmailExist = await User.findOne({ email });
-    if (name === ifSameEmailExist) {
+    if (ifSameEmailExist) {
       return res.status(500).json({
         status: false,
-        message: "Email already exists",
+        message: "User already exists",
       });
     }
+    
+
     //hasing password
-    const hashedPassword=await bcrypt.hash(password,10)
+    const hashedPassword = await bcrypt.hash(password, 10);
     //pushing the data to user
     await new User({
       name,
       email,
-      password:hashedPassword
+      password: hashedPassword,
     }).save();
-
-    
 
     res.json({
       success: true,
@@ -37,42 +37,39 @@ const register = async (req, res) => {
     });
   } catch (err) {
     res.status(200).json({
-      message:err.message
+      message: err.message,
     });
   }
 };
-const login=async(req,res)=>{
+const login = async (req, res) => {
   try {
-    const{email,password}=req.body
-    if(!email|| !password){
+    const { email, password } = req.body;
+    if (!email || !password) {
       return res.status(500).json({
-        status:false,
-        message:"All fileds are required"
-      })
+        status: false,
+        message: "All fileds are required",
+      });
     }
-    const user=await User.findOne({email})
-    if(!user){
+    const user = await User.findOne({ email });
+    if (!user) {
       return res.status(500).json({
-        status:false,
-        message:"Incorrect Email or Password"
-      })
-      
+        status: false,
+        message: "Incorrect Email or Password",
+      });
     }
     const match = await bcrypt.compare(password, user.password);
-    if(!match){
+    if (!match) {
       return res.status(500).json({
-        status:false,
-        message:"Incorrect Email or Password"
-      })
+        status: false,
+        message: "Incorrect Email or Password",
+      });
     }
-    generateToken(res,user,`Welcome back ${user.name}`)
-    
-
+    generateToken(res, user, `Welcome back ${user.name}`);
   } catch (error) {
     res.status(500).json({
-      success:false,
-      message:"Failed to Login"+error.message
-    })
+      success: false,
+      message: "Failed to Login" + error.message,
+    });
   }
-}
-module.exports = { register ,login};
+};
+module.exports = { register, login };
