@@ -31,6 +31,7 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import DarkMode from "@/DarkMode";
 import { Input } from "./ui/input";
+import { Link } from "react-router";
 
 const NavBar = () => {
   const user = true;
@@ -42,7 +43,7 @@ const NavBar = () => {
           {" "}
           <School className="h-10 w-10" />
           <h1 className=" hidden md:block font-extrabold text-2xl ">
-            E Learning
+           <Link to={"/"}>E Learning</Link> 
           </h1>
         </div>{" "}
         <div className="flex gap-3 ">
@@ -58,8 +59,8 @@ const NavBar = () => {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>My learning</DropdownMenuItem>
-                  <DropdownMenuItem>Edit Profile</DropdownMenuItem>
+                  <DropdownMenuItem><Link to={"/my-learning"}>My learning</Link></DropdownMenuItem>
+                  <DropdownMenuItem><Link to={"/profile"}>Edit Profile</Link></DropdownMenuItem>
                   <DropdownMenuItem>Log Out</DropdownMenuItem>
                   <DropdownMenuItem>Dashboard</DropdownMenuItem>
                 </DropdownMenuGroup>

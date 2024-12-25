@@ -16,9 +16,11 @@ import {
 } from "@/features/api/authApi";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 const Login = () => {
+  const navigate=useNavigate()
   const [signupInput, setSignUpInput] = useState({
     name: "",
     email: "",
@@ -65,6 +67,7 @@ const Login = () => {
     }
     else if (loginData && loginIsSuccess) {
       toast.success(loginData.message || "Successfuly Logged In");
+      navigate("/")
     }
    else if (loginError) {
       toast.error(loginError.message || "Failed to Log In");
@@ -135,7 +138,7 @@ const Login = () => {
                 disabled={resgisterLoading}
                 onClick={() => handleRegistration("signup")}
               >
-                {loginLoading ? (
+                {resgisterLoading ? (
                   <>
                     <Loader2 className="mr2 h-4 w-4 animate-spin">
                       Please wait

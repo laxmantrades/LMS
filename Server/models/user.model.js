@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema(
         ref: "Course",
       },
     ],
+    photoUrl:{
+      type:"string",
+      default:""
+    }
   },
   {
     timestamps: true,
