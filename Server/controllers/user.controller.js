@@ -75,7 +75,7 @@ const login = async (req, res) => {
     });
   }
 };
-const logout = async () => {
+const logout = async (req,res) => {
   try {
     return res.cookie("token", "", { maxAge: 0 }).json({
       success: true,

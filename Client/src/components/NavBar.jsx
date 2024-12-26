@@ -31,10 +31,30 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import DarkMode from "@/DarkMode";
 import { Input } from "./ui/input";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useLogoutUserMutation } from "@/features/api/authApi";
+import { useEffect } from "react";
+import { toast } from "sonner";
+import { useSelector } from "react-redux";
 
 const NavBar = () => {
-  const user = true;
+  const user = useSelector((store) => store?.auth?.user?.user);
+
+  const [logoutUser, { data, isLoading, isError, isSuccess }] =
+    useLogoutUserMutation();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data.message || "User loged out");
+      navigate("/login");
+    }
+  }, [isSuccess]);
+
+  const logOuthandler = async () => {
+    await logoutUser();
+  };
 
   return (
     <div className="h-16 dark:bg-[#020817] bg-white border-b dark:border-b-gray-800 border-b-gray-200 fixed  top-0 left-0 right-0 duration-300 z-10  ">
@@ -43,7 +63,7 @@ const NavBar = () => {
           {" "}
           <School className="h-10 w-10" />
           <h1 className=" hidden md:block font-extrabold text-2xl ">
-           <Link to={"/"}>E Learning</Link> 
+            <Link to={"/"}>E Learning</Link>
           </h1>
         </div>{" "}
         <div className="flex gap-3 ">
@@ -51,7 +71,13 @@ const NavBar = () => {
             <DropdownMenu className="opacity-100">
               <DropdownMenuTrigger asChild>
                 <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarImage
+                    className="object-cover"
+                    src={
+                      (user && user?.photoUrl) ||
+                      "https://github.com/shadcn.png"
+                    }
+                  />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
@@ -59,10 +85,20 @@ const NavBar = () => {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem><Link to={"/my-learning"}>My learning</Link></DropdownMenuItem>
-                  <DropdownMenuItem><Link to={"/profile"}>Edit Profile</Link></DropdownMenuItem>
-                  <DropdownMenuItem>Log Out</DropdownMenuItem>
-                  <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link to={"/my-learning"}>My learning</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link to={"/profile"}>Edit Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={logOuthandler}>
+                    Log Out
+                  </DropdownMenuItem>
+                  {user?.role === "instructor" && (
+                    <DropdownMenuItem>
+                      <Link to="/admin/dashboard">Dashboard</Link>
+                    </DropdownMenuItem>
+                  )}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
               </DropdownMenuContent>
@@ -78,14 +114,14 @@ const NavBar = () => {
       </div>
       <div className=" md:hidden  flex items-center h-full justify-between px-4">
         <h1 className="text-2xl font-bold ml-3 ">E-Learning</h1>
-        <MobileNavBar />
+        <MobileNavBar user={user?.role} />
       </div>
     </div>
   );
 };
 export default NavBar;
 
-const MobileNavBar = () => {
+const MobileNavBar = ({ user }) => {
   const role = "instructor";
 
   return (

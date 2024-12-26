@@ -6,6 +6,7 @@ const ConnectDB = require("./DB/db");
 const cookieParser = require("cookie-parser");
 const { register } = require("./controllers/user.controller");
 const userRoutes = require("./Router/user.route");
+const courseRoutes = require("./Router/course.route");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,6 +23,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/course", courseRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

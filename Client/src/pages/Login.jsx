@@ -70,10 +70,10 @@ const Login = () => {
       navigate("/")
     }
    else if (loginError) {
-      toast.error(loginError.message || "Failed to Log In");
+      toast.error(loginError.data.message || "Failed to Log In");
     }
     else if (registerError) {
-      toast.error(registerError.message || "Failed to Register");
+      toast.error(registerError.data.message || "Failed to Register");
     }
   }, [
     registerData,
