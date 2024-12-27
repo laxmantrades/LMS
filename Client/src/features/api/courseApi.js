@@ -1,23 +1,30 @@
-const { createApi, fetchBaseQuery } = require("@reduxjs/toolkit/query");
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-
-const COURSE_URL="http://localhost:8080/api/v1/course"
-const courseApi=createApi({
-    reducerPath:"courseApi",
-    baseQuery:fetchBaseQuery({
-        baseUrl:COURSE_URL,
-        credentials:"include"
+const COURSE_URL = "http://localhost:5001/api/v1/course";
+export const courseApi = createApi({
+  reducerPath: "courseApi",
+  tagTypes: ["Refetch-creator-course"],
+  baseQuery: fetchBaseQuery({
+    baseUrl: COURSE_URL,
+    credentials: "include",
+  }),
+  endpoints: (builder) => ({
+    createCourse: builder.mutation({
+      query: ({ courseTitle, category }) => ({
+        method: "POST",
+        url: "",
+        body: { courseTitle, category },
+      }),
+     invalidatesTags: ["Refetch-creator-course"],
     }),
-    endpoints:(builder)=>({
-        createCourse:builder.mutation({
-            query:({courseTitle,category})=>({
-                method:"POST",
-                url:"",
-                body:courseTitle,category
-                
-            })
-        })
-    })
-})
+    getAllCourse: builder.query({
+      query: () => ({
+        url: "search",
+        method: "GET",
+      }),
+      providesTags: ["Refetch-creator-course"],
+    }),
+  }),
+});
 
-export const{   useCreateCourseMutation }=courseApi
+export const { useCreateCourseMutation, useGetAllCourseQuery } = courseApi;

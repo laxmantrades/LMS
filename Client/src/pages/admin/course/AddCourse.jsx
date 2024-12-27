@@ -9,20 +9,41 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCreateCourseMutation } from "@/features/api/courseApi";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 const AddCourse = () => {
-  const isLoading = false;
   const [courseTitle, setCourseTitle] = useState("");
   const [category, setCategory] = useState("");
-  
+  const [createCourse, { data, isLoading, isSuccess, isError }] =
+    useCreateCourseMutation();
+ 
 
   const navigate = useNavigate();
   const getSlecetedCategory = (value) => {
     setCategory(value);
   };
+  const handleCreate = async () => {
+    try {
+    await createCourse({ courseTitle, category });
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  };
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data?.message || "Succefully created the course");
+      navigate("/admin/course")
+    }
+    if (isError) {
+      toast.error(isError?.data?.message || "Failed to create Course");
+    }
+  }, [data, isError, isSuccess]);
   return (
     <div className="mt-20">
       <h1 className="text-xl font-bold">
@@ -58,11 +79,17 @@ const AddCourse = () => {
             </SelectGroup>
           </SelectContent>
         </Select>
-        <div className="flex items-center gap-2 mt-2 relative -z-20">
-          <Button variant="outline" onClick={() => navigate("/admin/course")}>
+        <div className="flex items-center gap-2 mt-2  -">
+          <Button
+            variant="outline"
+            onClick={() => {
+              navigate("/admin/course");
+            }}
+            className=" bg-black text-white cursor-pointer "
+          >
             Back
           </Button>
-          <Button disabled={isLoading}>
+          <Button onClick={handleCreate} disabled={isLoading}>
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

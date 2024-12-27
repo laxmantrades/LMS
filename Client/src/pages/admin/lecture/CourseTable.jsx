@@ -11,88 +11,50 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-];
-function CourseTable() {
-   const navigate=useNavigate()
+import { useGetAllCourseQuery } from "@/features/api/courseApi";
+import { Edit } from "lucide-react";
 
-    
+function CourseTable() {
+  const navigate = useNavigate();
+  const { data, isLoading, isError, isSuccess } = useGetAllCourseQuery();
+  if(isLoading)<h1>Loadig...</h1>
+  
+
   return (
     <div className="mt-4">
-      
-        <Button onClick={()=> navigate("create")
-        } className="bg-black text-white">Create a new Course</Button>
-    
+      <Button
+        onClick={() => navigate("create")}
+        className="bg-black text-white"
+      >
+        Create a new Course
+      </Button>
+
       <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableCaption>A list of your created course.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
+            <TableHead className="w-[100px]">Price</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
+            <TableHead>Title</TableHead>
+            <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {invoices.map((invoice) => (
-            <TableRow key={invoice.invoice}>
-              <TableCell className="font-medium">{invoice.invoice}</TableCell>
-              <TableCell>{invoice.paymentStatus}</TableCell>
-              <TableCell>{invoice.paymentMethod}</TableCell>
+          {data?.findCourse?.map((course) => (
+            <TableRow key={course._id}>
+              <TableCell className="font-medium">
+                {course.price || "NA"}
+              </TableCell>
+              <TableCell>{course?.paymentStatus || "Draft"}</TableCell>
+              <TableCell>{course?.courseTitle}</TableCell>
               <TableCell className="text-right">
-                {invoice.totalAmount}
+                <Button size="sm" variant="ghost" onClick={()=>navigate(`${course._id}`)}>
+                  <Edit />
+                </Button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
-          </TableRow>
-        </TableFooter>
       </Table>
     </div>
   );
