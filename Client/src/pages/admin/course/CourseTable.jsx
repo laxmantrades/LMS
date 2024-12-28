@@ -43,7 +43,7 @@ function CourseTable() {
           {data?.findCourse?.map((course) => (
             <TableRow key={course._id}>
               <TableCell className="font-medium">
-                {course.price || "NA"}
+                {course.coursePrice || "NA"}
               </TableCell>
               <TableCell>{course?.paymentStatus || "Draft"}</TableCell>
               <TableCell>{course?.courseTitle}</TableCell>

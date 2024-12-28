@@ -20,7 +20,7 @@ import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 const Login = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const [signupInput, setSignUpInput] = useState({
     name: "",
     email: "",
@@ -64,16 +64,13 @@ const Login = () => {
   useEffect(() => {
     if (registerData && registerIsSuccess) {
       toast.success(registerData.message || "Succefully signed Up");
-    }
-    else if (loginData && loginIsSuccess) {
-      toast.success(loginData.message || "Successfuly Logged In");
-      navigate("/")
-    }
-   else if (loginError) {
-      toast.error(loginError.data.message || "Failed to Log In");
-    }
-    else if (registerError) {
-      toast.error(registerError.data.message || "Failed to Register");
+    } else if (loginData && loginIsSuccess) {
+      toast.success(loginData?.message || "Successfuly Logged In");
+      navigate("/");
+    } else if (loginError) {
+      toast.error(loginError?.data?.message || "Failed to Log In");
+    } else if (registerError) {
+      toast.error(registerError?.data?.message || "Failed to Register");
     }
   }, [
     registerData,
