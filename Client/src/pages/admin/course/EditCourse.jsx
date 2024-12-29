@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 import CourseTab from "./CourseTab";
 
-const EditCourse = ({input,setInput}) => {
+const EditCourse = () => {
   
   return <div>
           <div className="flex justify-between p-4">

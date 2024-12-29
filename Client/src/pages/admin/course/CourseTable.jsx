@@ -17,8 +17,7 @@ import { Edit } from "lucide-react";
 function CourseTable() {
   const navigate = useNavigate();
   const { data, isLoading, isError, isSuccess } = useGetAllCourseQuery();
-  if(isLoading)<h1>Loadig...</h1>
-  
+  if (isLoading) <h1>Loadig...</h1>;
 
   return (
     <div className="mt-4">
@@ -45,10 +44,14 @@ function CourseTable() {
               <TableCell className="font-medium">
                 {course.coursePrice || "NA"}
               </TableCell>
-              <TableCell>{course?.paymentStatus || "Draft"}</TableCell>
+              <TableCell>{course.isPublished?"True":"False"}</TableCell>
               <TableCell>{course?.courseTitle}</TableCell>
               <TableCell className="text-right">
-                <Button size="sm" variant="ghost" onClick={()=>navigate(`${course._id}`)}>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => navigate(`${course._id}`)}
+                >
                   <Edit />
                 </Button>
               </TableCell>

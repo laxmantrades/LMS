@@ -25,16 +25,14 @@ import {
   useEditCourseMutation,
   useGetAllCourseQuery,
   useGetCourseQuery,
+  useTogglePublishCourseMutation,
 } from "@/features/api/courseApi";
 import { toast } from "sonner";
 
 const CourseTab = () => {
-
-  
   const params = useParams();
   const { courseId } = params;
 
-  const isPublished = false;
   const [input, setInput] = useState({
     courseTitle: "",
     subTitle: "",
@@ -50,8 +48,7 @@ const CourseTab = () => {
   const {
     data: courseInfo,
     isLoading: courseLoading,
-    isError: CourseError,
-    
+    isError: CourseError,refetch
   } = useGetCourseQuery(courseId);
   useEffect(() => {
     const course = courseInfo?.CourseFind;
@@ -66,7 +63,6 @@ const CourseTab = () => {
         courseThumbnail: "",
       });
     }
-    ;
   }, [courseInfo]);
 
   const changeEventHandler = (e) => {
@@ -88,8 +84,9 @@ const CourseTab = () => {
       fileReader.readAsDataURL(file);
     }
   };
+  //api
+  const [togglePublishCourse, {  }] = useTogglePublishCourseMutation();
 
-  
   const updateCourseHandler = async () => {
     const formData = new FormData();
     formData.append("courseTitle", input.courseTitle);
@@ -105,18 +102,39 @@ const CourseTab = () => {
   useEffect(() => {
     if (isSuccess) {
       toast.success(data?.message || "Succefully Updated The Course");
-   
     }
     if (isError) {
       toast.error(isError?.data?.message || "Failed to update the course");
     }
-    
   }, [isSuccess, isError]);
 
   const navigate = useNavigate();
- 
+
+  const publishStatusHandler = async (action) => {
+    try {
+      // Correct the typo 'respones' to 'response'
+      const response = await togglePublishCourse({ courseId, query: action });
   
+      // Show success message
+      toast.success(response.data.message);
+      
+      // Refetch to update the UI with the latest status
+      refetch();
+    } catch (error) {
+      // Log the error for debugging purposes
+      console.error(error);
   
+      // Check if error response contains a message and show it
+      const errorMessage = error?.response?.data?.message || "Failed to publish or unpublish course";
+      
+      // Show the error message to the user
+      toast.error(errorMessage);
+    }
+  };
+  
+
+  const isPublished = courseInfo?.CourseFind?.isPublished;
+
   return (
     <div>
       <Card>
@@ -129,6 +147,7 @@ const CourseTab = () => {
           </div>
           <div className="space-x-2">
             <Button
+              disabled={courseInfo?.CourseFind?.lectures?.length === 0}
               variant="outline"
               onClick={() =>
                 publishStatusHandler(isPublished ? "false" : "true")
@@ -168,10 +187,7 @@ const CourseTab = () => {
             <div className="flex items-center gap-5">
               <div>
                 <Label>Category</Label>
-                <Select
-                  value={input?.category}
-                  onValueChange={selectCategory}
-                >
+                <Select value={input?.category} onValueChange={selectCategory}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
