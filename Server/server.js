@@ -7,7 +7,9 @@ const cookieParser = require("cookie-parser");
 const { register } = require("./controllers/user.controller");
 const userRoutes = require("./Router/user.route");
 const courseRoutes = require("./Router/course.route");
+const purchaseRoutes=require("./Router/purchaseCourse.route")
 const mediaRoutes=require("./Router/media.route")
+const progressRoutes=require("./Router/courseProgress.route")
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -26,6 +28,8 @@ app.use(cookieParser());
 app.use("/api/v1/media",mediaRoutes)
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/course", courseRoutes);
+app.use("/api/v1/purchase",purchaseRoutes)
+app.use("/api/v1/progress",progressRoutes)
 
 // Error handling middleware
 app.use((err, req, res, next) => {
