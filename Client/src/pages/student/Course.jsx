@@ -20,7 +20,7 @@ const Course = ({ course }) => {
         </div>
         <CardContent className="px-5 py-4 space-y-3">
           <h1 className="hover:underline font-bold text-lg truncate">
-          <Link to={`course-detail/${course._id}`}> {course?.courseTitle}</Link>
+          <Link to={`course-detail/${course?._id}`}> {course?.courseTitle}</Link>
           </h1>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">

@@ -1,8 +1,12 @@
+import { useGetAllPurchasedCourseQuery } from "@/features/api/purchaseApi";
 import Course from "./Course";
 
 const MyLearning = () => {
   const myLearning = ["hi"];
   const loading = false;
+
+  const{data}=useGetAllPurchasedCourseQuery()
+  const course=data?.purchaseCourse
   return (
     <div className="text-center mt-24">
       <div className="font-bold text-3xl">My Learning</div>
@@ -13,8 +17,8 @@ const MyLearning = () => {
         <h1 className="mt-40">You are not enrolled to any courses yet</h1>
       ) : (
         <div className="flex justify-center items-center gap-4">
-          {Array.from({ length: 4 }).map((index) => (
-            <Course key={index} />
+          {course && course.map((index) => (
+            <Course course={course }key={index} />
           ))}
         </div>
       )}
