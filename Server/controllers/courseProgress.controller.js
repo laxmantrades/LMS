@@ -70,11 +70,17 @@ const updateLectureProgress = async (req, res) => {
       //if no lecture progress found then add new lecture progress
       courseProgress.lectureProgress.push({ lectureId, viewed: true });
     }
+    //toggle viewd
+    //todo
+   
+   
     //if all lecture is complete
     const lectureProgresslength = courseProgress.lectureProgress.filter(
       (lectureProgress) => lectureProgress.viewed
     ).length;
     const course = await COURSE.findById(courseId);
+    
+
     //if lectures length is equal to lectureProgress length
     if (course.lectures.length === lectureProgresslength)
       courseProgress.completed = true;
