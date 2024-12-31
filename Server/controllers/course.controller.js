@@ -29,6 +29,41 @@ const createCourse = async (req, res) => {
     });
   }
 };
+const searchCourse = async (req, res) => {
+  try {
+    const { query = "", categories = [], sortByPrice = "" } = req.query;
+    //create searchquery
+    const searchCriteria = {
+      isPublished: true,
+      $or: [
+        { courseTitle: { $regex: query, $options: "i" } },
+        { subTitle: { $regex: query, $options: "i" } },
+        { category: { $regex: query, $options: "i" } },
+      ],
+    };
+    //if categories selected
+    if (categories.length > 0) {
+      searchCriteria.category = { $in: categories };
+    }
+    //define sorting order
+    const sortOptions = {};
+    if (sortByPrice === "low") {
+      sortOptions.coursePrice = 1;
+    } else if (sortByPrice === "high") {
+      sortOptions.coursePrice = -1;
+    }
+    const courses=await COURSE.find(searchCriteria).populate({path:"creator",select:"name photoUrl"}).sort(sortOptions)
+
+    return res.status(200).json({
+      success:true,
+      courses:courses || []
+    })
+  } catch (error) {
+    return res.status(500).json({
+      message:"Failed to fetch course"
+    })
+  }
+};
 const getAdmincCourse = async (req, res) => {
   try {
     const userID = req.id;
@@ -52,12 +87,12 @@ const getPublishedCourse = async (req, res) => {
   try {
     const getPublishedCourse = await COURSE.find({
       isPublished: true,
-    }).populate({ path: "creator",select:"name photoUrl "});
-    if(!getPublishedCourse){
+    }).populate({ path: "creator", select: "name photoUrl " });
+    if (!getPublishedCourse) {
       return res.status(404).json({
-        success:false,
-        message:"No courses found"
-      })
+        success: false,
+        message: "No courses found",
+      });
     }
     return res.status(200).json({
       message: "Succefully fetched the published course!",
@@ -137,7 +172,9 @@ const getCourse = async (req, res) => {
   try {
     const courseId = req.params.courseId;
 
-    const CourseFind = await COURSE.findById(courseId).populate({path:"creator"});
+    const CourseFind = await COURSE.findById(courseId).populate({
+      path: "creator",
+    });
     if (!CourseFind) {
       return res.status(500).json({
         success: false,
@@ -344,4 +381,5 @@ module.exports = {
   getLectureById,
   togglePublishCourse,
   getPublishedCourse,
+  searchCourse
 };

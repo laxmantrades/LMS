@@ -13,11 +13,13 @@ const {
   getLectureById,
   togglePublishCourse,
   getPublishedCourse,
+  searchCourse,
 } = require("../controllers/course.controller");
 const upload = require("../utils/multer");
 const router = express.Router();
 
 router.route("/").post(isAuthenticated, createCourse);
+router.route("/search/course").get(isAuthenticated, searchCourse);
 router.route("/search").get(isAuthenticated, getAdmincCourse);
 router.route("/published-course").get(isAuthenticated, getPublishedCourse);
 router
