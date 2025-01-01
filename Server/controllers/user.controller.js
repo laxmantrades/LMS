@@ -75,7 +75,7 @@ const login = async (req, res) => {
     });
   }
 };
-const logout = async (req,res) => {
+const logout = async (req, res) => {
   try {
     return res.cookie("token", "", { maxAge: 0 }).json({
       success: true,
@@ -92,8 +92,16 @@ const getUserProfile = async (req, res) => {
   try {
     const userId = req.id;
 
-    const user = await User.findById(userId);
-   
+    const user = await User.findById(userId)
+      .select("-password ")
+      .populate({
+        path: "enrolledCourses",
+        select: "-enrolledStudents",
+        populate: {
+          path: "creator",
+          select: "-enrolledCourses -password -role -email",
+        },
+      });
 
     if (!user) {
       return "No user found";
@@ -145,4 +153,4 @@ const updateProfile = async (req, res) => {
     });
   }
 };
-module.exports = { register, login, logout, getUserProfile,updateProfile };
+module.exports = { register, login, logout, getUserProfile, updateProfile };
