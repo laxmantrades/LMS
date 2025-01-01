@@ -5,6 +5,8 @@ import { Badge } from "lucide-react";
 import { Link } from "react-router";
 
 const Course = ({ course }) => {
+  console.log(course);
+  
   return (
     <div>
       <Card className="overflow-hidden rounded-lg dark:bg-gray-800 bg-white shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ">
@@ -20,7 +22,7 @@ const Course = ({ course }) => {
         </div>
         <CardContent className="px-5 py-4 space-y-3">
           <h1 className="hover:underline font-bold text-lg truncate">
-          <Link to={`course-detail/${course?._id}`}> {course?.courseTitle}</Link>
+          <Link to={`/course-detail/${course?._id}`}> {course?.courseTitle}</Link>
           </h1>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">

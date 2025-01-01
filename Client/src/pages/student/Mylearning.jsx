@@ -1,24 +1,27 @@
 import { useGetAllPurchasedCourseQuery } from "@/features/api/purchaseApi";
 import Course from "./Course";
+import { useLoadUserQuery } from "@/features/api/authApi";
 
 const MyLearning = () => {
-  const myLearning = ["hi"];
+  
   const loading = false;
 
-  const{data}=useGetAllPurchasedCourseQuery()
-  const course=data?.purchaseCourse
+  const{data,isLoading}=useLoadUserQuery()
+  const myLearning=data?.user.enrolledCourses||[]
+  console.log(myLearning);
+  
   return (
     <div className="text-center mt-24">
       <div className="font-bold text-3xl">My Learning</div>
       <div className="mt-4">
-      {loading ? (
+      {isLoading ? (
         <MyLearningSkeleton />
       ) : myLearning.length === 0 ? (
         <h1 className="mt-40">You are not enrolled to any courses yet</h1>
       ) : (
         <div className="flex justify-center items-center gap-4">
-          {course && course.map((index) => (
-            <Course course={course }key={index} />
+          {myLearning && myLearning.map((course) => (
+            <Course course={course }key={course._id} />
           ))}
         </div>
       )}

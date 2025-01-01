@@ -57,6 +57,8 @@ function Profile() {
   }, [error,isError, data, isSuccess,updateUserData]);
   if (isLoading) return <h1>Profile Loading</h1>;
   const { name, email, role, enrolledCourses,photoUrl } = data?.user;
+  console.log(enrolledCourses);
+  
   return (
     <div className="max-w-4xl mx-auto px-4 my-20 ">
       <h1 className="text-3xl font-bold">Profile</h1>
@@ -143,8 +145,8 @@ function Profile() {
             <h1>You have not enrolled to the courses yet</h1>
           ) : (
             <div className="flex flex-wrap">
-              {enrolledCourses.map((course, index) => (
-                <Course key={index} />
+              {enrolledCourses.map((course) => (
+                <Course  course={course} key={course?._id} />
               ))}
             </div>
           )}
