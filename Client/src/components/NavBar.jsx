@@ -95,9 +95,10 @@ const NavBar = () => {
                     Log Out
                   </DropdownMenuItem>
                   {user?.role === "instructor" && (
-                    <DropdownMenuItem>
-                      <Link to="/admin/dashboard">Dashboard</Link>
-                    </DropdownMenuItem>
+                    <Link to={"/admin/dashboard"}>
+                      {" "}
+                      <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                    </Link>
                   )}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
@@ -112,8 +113,8 @@ const NavBar = () => {
           <DarkMode />
         </div>
       </div>
-      <div className=" md:hidden  flex items-center h-full justify-between px-4">
-        <h1 className="text-2xl font-bold ml-3 ">E-Learning</h1>
+      <div className="dark:text-white md:hidden  flex items-center h-full justify-between px-4">
+        <h1 className="text-2xl font-bold ml-3 "><Link to={"/"}>E-Learning</Link></h1>
         <MobileNavBar user={user?.role} />
       </div>
     </div>
@@ -121,35 +122,45 @@ const NavBar = () => {
 };
 export default NavBar;
 
-const MobileNavBar = ({ user }) => {
+const MobileNavBar = ({ user, logOuthandler }) => {
   const role = "instructor";
+  const navigate=useNavigate()
 
   return (
-    <Sheet>
+    
+    <Sheet >
       <SheetTrigger asChild>
         <Button size="icon" className=" rounded-full " variant="outline">
           <Menu />
         </Button>
       </SheetTrigger>
-      <SheetContent className="bg-white">
+      <SheetContent className="">
         <SheetHeader className="flex flex-row items-center justify-between p-4">
-          <SheetTitle className="text-xl">E-learning</SheetTitle>
+          <SheetTitle className="text-xl cursor-pointer">
+            <Link  to={"/"}>E-learning</Link>
+          </SheetTitle>
           <SheetDescription>
             <DarkMode />
           </SheetDescription>
         </SheetHeader>
         <nav className="flex flex-col justify-between ">
-          <span className="mt-2">My learning</span>
-          <span className="mt-2">Edit Profile</span>
-          <span className="mt-2">Log out</span>
+          <span className="mt-2">
+            <Link to={"/my-learning"}>My learning</Link>{" "}
+          </span>
+          <span className="mt-2">
+            <Link to={"/profile"}>Edit Profile</Link>
+          </span>
+          <span className="mt-2 cursor-pointer" onClick={logOuthandler}>
+            Log out
+          </span>
         </nav>
-        {role === "instructor" && (
+        {user === "instructor" && (
           <SheetFooter>
             <SheetClose
               asChild
               className="w-full flex items-center justify-center mt-2"
             >
-              <Button className="bg-red-400" type="submit">
+              <Button className="bg-red-400" type="submit" onClick={()=>navigate("/admin/dashboard")}>
                 Dashboard
               </Button>
             </SheetClose>
@@ -157,5 +168,6 @@ const MobileNavBar = ({ user }) => {
         )}
       </SheetContent>
     </Sheet>
+
   );
 };

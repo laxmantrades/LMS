@@ -56,6 +56,7 @@ function Profile() {
     }
   }, [error,isError, data, isSuccess,updateUserData]);
   if (isLoading) return <h1>Profile Loading</h1>;
+  if(!data) return
   const { name, email, role, enrolledCourses,photoUrl } = data?.user;
   console.log(enrolledCourses);
   
