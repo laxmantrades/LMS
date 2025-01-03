@@ -26,7 +26,7 @@ function HeroSection() {
         <input
           value={searchQuery}
           onChange={(e) => setSearchquery(e.target.value)}
-          className="w-1/3 p-4 rounded-l-full shadow-md text-black overflow-hidden dark:text-gray-100 dark:placeholder:bg-gray-500 "
+          className="w-1/3 p-4 rounded-l-full shadow-md text-black dark:bg-gray-600  overflow-hidden dark:text-white dark:placeholder:bg-gray-600 "
           placeholder="search courses"
         ></input>
         <button
