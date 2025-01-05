@@ -63,7 +63,7 @@ const NavBar = () => {
           {" "}
           <School className="h-10 w-10" />
           <h1 className=" hidden md:block font-extrabold text-2xl ">
-            <Link to={"/"}>E Learning</Link>
+            <Link to={"/"}>Learn Guru</Link>
           </h1>
         </div>{" "}
         <div className="flex gap-3 ">
@@ -137,7 +137,7 @@ const MobileNavBar = ({ user, logOuthandler }) => {
       <SheetContent className="">
         <SheetHeader className="flex flex-row items-center justify-between p-4">
           <SheetTitle className="text-xl cursor-pointer">
-            <Link  to={"/"}>E-learning</Link>
+            <Link  to={"/"}>Learn Guru</Link>
           </SheetTitle>
           <SheetDescription>
             <DarkMode />
