@@ -5,6 +5,7 @@ const {
   uploadMedia,
   deleteVideoFromCloudinary,
 } = require("../utils/cloudinary");
+const validator=require("validator")
 
 const createCourse = async (req, res) => {
   try {
@@ -14,6 +15,19 @@ const createCourse = async (req, res) => {
         message: "CourseTitle and Category are required",
       });
     }
+    if(!validator.isLength(courseTitle,{min:2,max:25})){
+      return res.status(500).json({
+        status: false,
+        message: "Please enter a valid course title!",
+      });
+    }
+    if(!validator.isLength(category,{min:2,max:15})){
+      return res.status(500).json({
+        status: false,
+        message: "Please enter a valid category!",
+      });
+    }
+   
     const course = await new COURSE({
       courseTitle,
       category,
@@ -118,6 +132,30 @@ const editCourse = async (req, res) => {
       courseLevel,
       coursePrice,
     } = req.body;
+    if(!validator.isLength(courseTitle,{min:2,max:25})){
+      return res.status(500).json({
+        status: false,
+        message: "Please enter a valid course title!",
+      });
+    }
+    if(!validator.isLength(category,{min:2,max:15})){
+      return res.status(500).json({
+        status: false,
+        message: "Please enter a valid category!",
+      });
+    }
+    if(!validator.isLength(subTitle,{min:2,max:100})){
+      return res.status(500).json({
+        status: false,
+        message: "Please enter a valid course subtitle!!",
+      });
+    }
+    if(!validator.isLength(courseLevel,{min:2,max:15})){
+      return res.status(500).json({
+        status: false,
+        message: "Please enter a valid course level!!",
+      });
+    }
     let findcourse = await COURSE.findById(id);
 
     if (!findcourse) {
@@ -203,6 +241,12 @@ const createLecture = async (req, res) => {
         message: "Lecture and CourseId is required",
       });
     }
+    if(!validator.isLength(lectureTitle,{min:2,max:25})){
+      return res.status(500).json({
+        status: false,
+        message: "Please enter a valid course title!",
+      });
+    }
 
     //now create lecture
     const newlecture = await new LECTURE({ lectureTitle }).save();
@@ -256,14 +300,26 @@ const editLecture = async (req, res) => {
     const { lectureId, courseId } = req.params;
     const { lectureTitle, videoInfo, isPreviewFree } = req.body;
     const lecture = await LECTURE.findById(lectureId);
-    console.log("hi");
-
     if (!lecture) {
       return res.status(500).json({
         success: false,
         message: "No lectures found!",
       });
     }
+    if(!validator.isLength(lectureTitle,{min:2,max:25})){
+      return res.status(500).json({
+        status: false,
+        message: "Please enter a valid lecture title!",
+      });
+    }
+    if(!isPreviewFree==="boolean"){
+      return res.status(500).json({
+        status: false,
+        message: "Please enter true of false!",
+      });
+    }
+
+   
     if (lectureTitle) lecture.lectureTitle = lectureTitle;
     if (videoInfo?.videoUrl) lecture.videoUrl = videoInfo.videoUrl;
     if (videoInfo?.publicId) lecture.publicId = videoInfo.publicID;

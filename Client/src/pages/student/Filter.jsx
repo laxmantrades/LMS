@@ -36,11 +36,12 @@ const Filter = ({ handleFilterChange }) => {
       handleFilterChange(newCategories, sortByPrice);
       return newCategories;
     });
-  };
-  const selectByPriceHandler=(selectedValue)=>{
-    setSortByPrice(selectedValue)
-    handleFilterChange(selectedCategories,selectedValue)
   }
+
+  const selectByPriceHandler = (selectedValue) => {
+    setSortByPrice(selectedValue);
+    handleFilterChange(selectedCategories, selectedValue);
+  };
   return (
     <div className="w-full md:w-[20%]">
       <div className="flex items-center justify-between">

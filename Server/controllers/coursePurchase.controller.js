@@ -4,11 +4,18 @@ const LECTURE = require("../models/lecture.model");
 const User = require("../models/user.model");
 const CoursePurchase = require("../models/purchaseCourse.model");
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const validator=require("validator")
 const createCheckoutSession = async (req, res) => {
   try {
     const userId = req.id;
     const { courseId } = req.body;
-    console.log(courseId);
+    
+    if (!validator.isLength(courseId,{max:45})) {
+      return res.status(500).json({
+        success: false,
+        message: "Invalid Course Id!",
+      });
+    }
 
     const course = await COURSE.findById(courseId);
     if (!course) {
@@ -17,14 +24,17 @@ const createCheckoutSession = async (req, res) => {
       });
     }
     //create a new course purchase record
-    //todo
+    let purchase=await CoursePurchase.findOne({courseId,userId})
     //filter if courseid same don't call
-    const newPurchase = new CoursePurchase({
-      courseId,
-      userId,
-      amount: course.coursePrice,
-      status: "pending",
-    });
+    if(!purchase){
+      purchase = new CoursePurchase({
+        courseId,
+        userId,
+        amount: course.coursePrice,
+        status: "pending",
+      })
+    }
+    
     //create a strip session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -52,6 +62,8 @@ const createCheckoutSession = async (req, res) => {
         //allowed_countries: ["IN","DK"], // Optionally restrict allowed countries
       },
     });
+   
+    
     if (!session.url) {
       return res
         .status(400)
@@ -59,8 +71,10 @@ const createCheckoutSession = async (req, res) => {
     }
 
     // Save the purchase record
-    newPurchase.paymentId = session.id;
-    await newPurchase.save();
+    purchase.paymentId = session.id;
+    await purchase.save();
+    
+    
 
     return res.status(200).json({
       success: true,
@@ -151,7 +165,7 @@ const getCourseDetailsWithPurchaseStatus = async (req, res) => {
       });
     }
 
-    const purchased = await CoursePurchase.findOne({ courseId, userId });
+    const purchased = await CoursePurchase.findOne({ courseId, userId,"status":"completed" });
 
     return res.status(200).json({
       course,

@@ -24,6 +24,7 @@ function SearchPage() {
     setSortByPrice(price);
   };
 
+
   const isEmpty = !isLoading && data?.courses.length === 0;
 
   return (

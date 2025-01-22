@@ -1,10 +1,12 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const generateToken = require("../utils/generateToken");
+const validator=require("validator")
 const {
   deleteMediaFromCloudinary,
   uploadMedia,
 } = require("../utils/cloudinary");
+
 
 const register = async (req, res) => {
   try {
@@ -14,6 +16,24 @@ const register = async (req, res) => {
       return res.status(500).json({
         status: false,
         message: "All fields are required",
+      });
+    }
+    if(!validator.isEmail(email)){
+      return res.status(500).json({
+        status: false,
+        message: "Please enter a valid email",
+      });
+    }
+    if(!validator.isLength(name,{min:2,max:25})){
+      return res.status(500).json({
+        status: false,
+        message: "Please enter a valid name",
+      });
+    }
+    if(!validator.isStrongPassword(password)){
+      return res.status(500).json({
+        status: false,
+        message: "Please enter a strong password",
       });
     }
     //checking if same email exists or not
@@ -122,7 +142,13 @@ const updateProfile = async (req, res) => {
     const userId = req.id;
     const { name } = req.body;
     const profilePhoto = req.file;
-
+    if(!validator.isLength(name,{min:2,max:25})){
+      return res.status(500).json({
+        status: false,
+        message: "Please enter a valid name",
+      });
+    }
+   
     const user = await User.findById(userId);
     if (!user) {
       res.status(500).json({
