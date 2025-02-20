@@ -22,6 +22,8 @@ FROM node:20
 # Set the working directory for the production container
 WORKDIR /app
 
+EXPOSE 5173
+
 # Copy only the necessary files (dist folder and node_modules) from the build stage
 COPY --from=build /app/dist /app/dist
 COPY --from=build /app/node_modules /app/node_modules
