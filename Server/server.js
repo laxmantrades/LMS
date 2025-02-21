@@ -30,6 +30,11 @@ app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/course", courseRoutes);
 app.use("/api/v1/purchase",purchaseRoutes)
 app.use("/api/v1/progress",progressRoutes)
+app.get("/api/v1/health",(req,res)=>{
+  res.json({
+    message:"ok"
+  })
+})
 
 // Error handling middleware
 app.use((err, req, res, next) => {

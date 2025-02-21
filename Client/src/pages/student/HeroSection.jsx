@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 
@@ -39,6 +40,7 @@ function HeroSection() {
       <Button className="mt-6 bg-white text-black rounded-full  p-6 text-xl dark:bg-gray-800 hover:bg-gray-200">
         Explore Courses
       </Button>
+     
     </div>
   );
 }
