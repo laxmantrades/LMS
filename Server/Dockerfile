@@ -18,4 +18,4 @@ COPY . .
 
 
 # Start the application
-CMD ["node", "index.js"]
+CMD ["node", "server.js"]
