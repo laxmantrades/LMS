@@ -22,6 +22,10 @@ FROM node:20
 # Set the working directory for the production container
 WORKDIR /app
 
+# Install a simple static file server (serve)
+RUN npm install -g serve  
+
+
 EXPOSE 3000
 
 # Copy only the necessary files (dist folder and node_modules) from the build stage
