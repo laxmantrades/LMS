@@ -13,11 +13,9 @@ RUN npm ci
 # Copy the source code ()
 COPY . .
 
-# Build the application ()
-RUN npm run build
 
-# Expose the port your app runs on (optional)
-EXPOSE 8080
+
+
 
 # Start the application
 CMD ["node", "index.js"]
