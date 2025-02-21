@@ -29,7 +29,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: MONGO_CONN_STR
-              value: mongodb://mongodb-svc:27017/COPENHAGEN_EATS?directConnection=true
+              value: mongodb://mongodb-svc:27017/LMS?directConnection=true
             - name: MONGO_USERNAME
               valueFrom:
                 secretKeyRef:
