@@ -56,11 +56,11 @@ jobs:
       # Build the Docker image and push to ECR
       - name: Build and Push Docker image to ECR
         run: |
-          docker build -t 440744253012.dkr.ecr.eu-north-1.amazonaws.com/copenhageneats-frontend:$GIT_SHA ./Client
-          docker push 440744253012.dkr.ecr.eu-north-1.amazonaws.com/copenhageneats-frontend:$GIT_SHA 
+          docker build -t 440744253012.dkr.ecr.eu-north-1.amazonaws.com/lms-frontend:$GIT_SHA ./Client
+          docker push 440744253012.dkr.ecr.eu-north-1.amazonaws.com/lms-frontend:$GIT_SHA 
  
-          docker build -t 440744253012.dkr.ecr.eu-north-1.amazonaws.com/copenhageneats-backend:$GIT_SHA ./Server
-          docker push 440744253012.dkr.ecr.eu-north-1.amazonaws.com/copenhageneats-backend:$GIT_SHA 
+          docker build -t 440744253012.dkr.ecr.eu-north-1.amazonaws.com/lms-backend:$GIT_SHA ./Server
+          docker push 440744253012.dkr.ecr.eu-north-1.amazonaws.com/lms-backend:$GIT_SHA 
           
 
       # Set up Kubeconfig for kubectl using the base64 Kubeconfig secret
