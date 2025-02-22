@@ -48,13 +48,13 @@ spec:
           livenessProbe:
             httpGet:
               path: /api/v1/health
-              port: 5000
+              port: 5001
             initialDelaySeconds: 10
             periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /api/v1/health
-              port: 5000
+              port: 5001
             initialDelaySeconds: 15
             periodSeconds: 5
             successThreshold: 1

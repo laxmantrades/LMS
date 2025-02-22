@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const COURSE_URL = "http://localhost:5001/api/v1/course";
+const COURSE_URL = window.location.hostname==="challenge.devconnectify.com"?" https://challenge.devconnectify.com/api/v1/course":"http://localhost:5001/api/v1/course";
 export const courseApi = createApi({
   reducerPath: "courseApi",
   tagTypes: ["Refetch-creator-course", "Refetch Lecture", "Refetch Course"],

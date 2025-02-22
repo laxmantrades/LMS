@@ -1,7 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { userLoggeddOut, userLoggedIN } from "../authSlice";
 
-const URI_API = "http://localhost:5001/api/v1/user/";
+const URI_API =
+  window.location.hostname === "challenge.devconnectify.com"
+    ? "https://challenge.devconnectify.com/api/v1/user/"
+    : "http://localhost:5001/api/v1/user/";
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
