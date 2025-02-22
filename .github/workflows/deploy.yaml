@@ -32,7 +32,6 @@ jobs:
           
           cat k8s_manifests/Server/backend-deployment.yaml  # Debugging: Print the file content
 
-     
         
      
       # Set up AWS CLI and configure it with the AWS Access Key ID and Secret Access Key
