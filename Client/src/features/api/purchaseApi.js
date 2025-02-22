@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const COURSE_PURCHASE_API =window.location.hostname==="challenge.devconnectify.com"? "https://challenge.devconnectify.com/api/v1/purhcase": "http://localhost:5001/api/v1/purchase";
+const COURSE_PURCHASE_API =window.location.hostname==="challenge.devconnectify.com"? "https://challenge.devconnectify.com/api/v1/purchase": "http://localhost:5001/api/v1/purchase";
 export const purchaseApi = createApi({
   reducerPath: "purchaseAPi",
   baseQuery: fetchBaseQuery({

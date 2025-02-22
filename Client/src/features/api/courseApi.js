@@ -1,6 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const COURSE_URL = window.location.hostname==="challenge.devconnectify.com"?" https://challenge.devconnectify.com/api/v1/course":"http://localhost:5001/api/v1/course";
+const COURSE_URL =
+  window.location.hostname === "challenge.devconnectify.com"
+    ? " https://challenge.devconnectify.com/api/v1/course"
+    : "http://localhost:5001/api/v1/course";
 export const courseApi = createApi({
   reducerPath: "courseApi",
   tagTypes: ["Refetch-creator-course", "Refetch Lecture", "Refetch Course"],
@@ -17,26 +20,25 @@ export const courseApi = createApi({
       }),
       invalidatesTags: ["Refetch-creator-course"],
     }),
-    getSearchCourses:builder.query({
-      query:({searchQuery,categories,sortByPrice})=>{
-        let queryString=`/search/course?query=${encodeURIComponent(searchQuery)}`
+    getSearchCourses: builder.query({
+      query: ({ searchQuery, categories, sortByPrice }) => {
+        let queryString = `/search/course?query=${encodeURIComponent(
+          searchQuery
+        )}`;
         //append category
-        if(categories && categories.length>0){
-          const categoriesString=categories.map(encodeURIComponent).join(",")
-          queryString+=`&categories=${categoriesString}`
+        if (categories && categories.length > 0) {
+          const categoriesString = categories.map(encodeURIComponent).join(",");
+          queryString += `&categories=${categoriesString}`;
         }
         //append sort by price if avaialble
-        if(sortByPrice){
-          queryString+=`&sortByPrice=${encodeURIComponent(sortByPrice)}`
+        if (sortByPrice) {
+          queryString += `&sortByPrice=${encodeURIComponent(sortByPrice)}`;
         }
-        return{
-          url:queryString,
-          method:"GET",
-          
-
-        }
-       
-      }
+        return {
+          url: queryString,
+          method: "GET",
+        };
+      },
     }),
     getAllCourse: builder.query({
       query: () => ({
@@ -114,7 +116,7 @@ export const courseApi = createApi({
         url: `/${courseId}?publish=${query}`,
         method: "PATCH",
       }),
-      
+
       invalidatesTags: ["Refetch Course"],
     }),
   }),
@@ -132,6 +134,5 @@ export const {
   useRemoveLectureMutation,
   useGetLectureByIdQuery,
   useTogglePublishCourseMutation,
-  useGetPublishedCourseQuery
-  
+  useGetPublishedCourseQuery,
 } = courseApi;

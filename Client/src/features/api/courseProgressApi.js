@@ -1,6 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const COURSE_PROGRESS_URL =window-location.hostname==="challenge.devconnectify.com"?"https://challenge.devconnectify.com/api/v1/progress": "http://localhost:5001/api/v1/progress";
+const COURSE_PROGRESS_URL =
+  window - location.hostname === "challenge.devconnectify.com"
+    ? "https://challenge.devconnectify.com/api/v1/progress"
+    : "http://localhost:5001/api/v1/progress";
 export const courseProgressApi = createApi({
   reducerPath: "courseProgressApi",
   baseQuery: fetchBaseQuery({
