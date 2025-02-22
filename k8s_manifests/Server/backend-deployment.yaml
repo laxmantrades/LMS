@@ -44,7 +44,7 @@ spec:
           #  - secretRef:
           #      name: app-secrets 
           ports:
-            - containerPort: 5000
+            - containerPort: 5001
           livenessProbe:
             httpGet:
               path: /api/v1/health
