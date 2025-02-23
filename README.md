@@ -460,7 +460,8 @@ kubectl apply -f backend-deployment.yaml
 ```bash
 kubectl get pods -n workshop
 ```
-- After running this code you should see Ready 1/1 
+- After running this code you should see Ready 1/1
+- To be continued ....
 
 
 
